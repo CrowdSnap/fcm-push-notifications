@@ -1,0 +1,25 @@
+{
+  "name": "fcm-push-notifications",
+  "version": "1.0.0",
+  "description": "Microservicio creado con express.js para gestionar las notificaciones push con FCM",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CrowdSnap/fcm-push-notifications.git"
+  },
+  "author": "Alejandro Marcos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CrowdSnap/fcm-push-notifications/issues"
+  },
+  "homepage": "https://github.com/CrowdSnap/fcm-push-notifications#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.1.1"
+  }
+}
