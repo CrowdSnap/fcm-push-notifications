@@ -2,8 +2,8 @@ const express = require("express");
 const admin = require("firebase-admin");
 const bodyParser = require("body-parser");
 
-// Inicializar Firebase Admin
-const serviceAccount = require("./firebase-credentials.json");
+// Inicializar Firebase Admin usando la variable de entorno
+const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -16,6 +16,14 @@ app.use(bodyParser.json());
 
 // Definir puerto para el servidor
 const port = process.env.PORT || 3000;
+
+// Middleware para restringir acceso a otras rutas
+app.use((req, res, next) => {
+  if (req.path !== "/send-notification") {
+    return res.status(404).send("Not Found");
+  }
+  next();
+});
 
 // Ruta para recibir notificaciones
 app.post("/send-notification", async (req, res) => {
