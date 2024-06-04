@@ -27,29 +27,25 @@ app.use((req, res, next) => {
 
 // Ruta para recibir notificaciones
 app.post("/send-notification", async (req, res) => {
-  // Obtener token del dispositivo
   const token = req.body.token;
-
-  // Validar token
   if (!token || token.length === 0) {
     res.status(400).send("Token inválido");
     return;
   }
 
-  // Obtener datos de la notificación
   const title = req.body.title;
   const body = req.body.body;
   const img = req.body.img;
+  const userId = req.body.userId;
+  const username = req.body.username;
+  const avatarUrl = req.body.avatarUrl;
+  const blurHashImage = req.body.blurHashImage;
 
-  // Validar datos de la notificación
-  if (!title || !body || !img) {
-    res
-      .status(400)
-      .send("Título, cuerpo e imagen de la notificación son requeridos");
+  if (!title || !body || !img || !userId || !username || !avatarUrl || !blurHashImage) {
+    res.status(400).send("Todos los campos son requeridos");
     return;
   }
 
-  // Preparar mensaje de la notificación
   const message = {
     notification: {
       title: title,
@@ -57,9 +53,14 @@ app.post("/send-notification", async (req, res) => {
       image: img,
     },
     token: token,
+    data: {
+      userId: userId,
+      username: username,
+      avatarUrl: avatarUrl,
+      blurHashImage: blurHashImage,
+    },
   };
 
-  // Enviar notificación a través de Firebase Messaging
   try {
     await admin.messaging().send(message);
     res.status(200).send("Notificación enviada");
